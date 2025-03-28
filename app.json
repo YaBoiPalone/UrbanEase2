@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "CivicApp",
+    "slug": "CivicApp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app requires access to your camera to take pictures of civic issues.",
+        "NSPhotoLibraryUsageDescription": "This app requires access to your photo library to select images for complaints.",
+        "NSLocationWhenInUseUsageDescription": "This app requires access to your location to tag complaints with accurate coordinates.",
+        "NSLocationAlwaysUsageDescription": "This app needs location access even when in the background to ensure accurate reporting."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
