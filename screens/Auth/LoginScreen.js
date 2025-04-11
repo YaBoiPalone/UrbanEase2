@@ -1,16 +1,27 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
-import supabase from "../../services/supabase";
+import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../../context/AuthContext";
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = () => {
+  const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { signIn } = useAuth();
 
   const handleLogin = async () => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const loggedInUser = await signIn(email, password);
+    if (!loggedInUser) {
+      Alert.alert("Login Failed", "Invalid credentials or user not found.");
+      return;
+    }
 
-    if (error) {
-      Alert.alert("Login Failed", error.message);
+    if (loggedInUser.email === "admin@gmail.com") {
+      Alert.alert("Success", "Admin Logged In");
+      navigation.reset({ index: 0, routes: [{ name: "AdminDashboard" }] });
+    } else {
+      Alert.alert("Success", "User Logged In");
+      navigation.reset({ index: 0, routes: [{ name: "Home" }] });
     }
   };
 
@@ -25,6 +36,7 @@ const LoginScreen = ({ navigation }) => {
         style={{ backgroundColor: "white", padding: 10, marginTop: 20 }}
         value={email}
         onChangeText={setEmail}
+        autoCapitalize="none"
       />
       <TextInput
         placeholder="Your Password"
@@ -37,6 +49,7 @@ const LoginScreen = ({ navigation }) => {
       <TouchableOpacity onPress={handleLogin} style={{ backgroundColor: "white", padding: 15, marginTop: 20 }}>
         <Text style={{ textAlign: "center", fontWeight: "bold" }}>Log In</Text>
       </TouchableOpacity>
+
       <TouchableOpacity onPress={() => navigation.navigate("Register")} style={{ marginTop: 10 }}>
         <Text style={{ color: "white", textAlign: "center" }}>Don't have an account? Sign up</Text>
       </TouchableOpacity>
